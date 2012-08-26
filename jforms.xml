@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="2.5.0" method="upgrade">
+	<name>plg_system_jforms</name>
+	<author>WebMechanic</author>
+	<creationDate>2012</creationDate>
+	<copyright>(C)2012 Franzis Verlag, WebMechanic. Alle Rechte vorbehalten.</copyright>
+	<license>GNU/GPL 2</license>
+	<authorUrl>http://joomla.webmechanic.biz</authorUrl>
+	<version>0.1.0</version>
+	<description>plg_system_jforms_desc</description>
+
+	<!-- keine Extradateien zu installieren.
+	     Für diesen "Feldversuch" gibt es auch keine
+	     Sprachschlüssel, sondern nur direkte Worte -->
+	<files />
+
+	<!-- dafür ein dicker Batzen "Parameter-Felder"...
+	     aber längst nicht alle Feldtypen -->
+	<config>
+	<fields name="params">
+
+		<fieldset name="egal" label="Einfache Felder">
+	<!-- Feldtypen die JForm nicht kennt werden zu normalen INPUT -->
+			<field type="hammanich" name="GibtsNich" unbekannte="Attribute" sind_oft="Auch Egal!" />
+	<!--
+		Alle Feldtypen akzeptieren die Attribute
+			default         text    Vorgabewert
+			description     text    Beschreibung für Tooltip (via Sprachschlüssel)
+			class           text    HTML-Attribut für Styling (i.d.R. "inputbox")
+			readonly        bool    Eingabe sperren
+			hidden          bool    Feld verbergen
+		Listen häufig
+			size            zahl    macht Listen-Dropdowns zu Listboxen der Höhe N
+		...mitunter auch
+			multiple        bool    Listen, Mehrfachselektion
+			onchange        text    JavaScript-Callback den man selbst "irgendwo" laden muss
+	-->
+
+			<field type="text"     name="jf_text"     label="Text (einzeilig)" />
+			<field type="textarea" name="jf_textarea" label="Textfeld (mehrzlg.)" />
+			<field type="email"    name="jf_email"    label="E-Mail (validiert)" />
+			<field type="tel"      name="jf_tel"      label="Telefon (validiert)" />
+			<field type="timezone" name="jf_timezone" label="Zeitzonen" />
+
+			<field type="checkbox" name="jf_checkbox" label="1 Kontrollkästchen"
+				value="99" />
+			<field type="checkboxes" name="jf_checkboxes" label="N Kontrollkästchen">
+				<option value="1">Wert 1</option>
+				<option value="2">Wert 2</option>
+				<option value="3">Wert 3</option>
+			</field>
+			<field type="radio" name="jf_radio" label="Radio"
+				default="1">
+				<option value="0">Knopf 0</option>
+				<option value="1">Knopf 1</option>
+			</field>
+			<field type="list" name="jf_list" label="Auswahlliste"
+				default="1">
+				<option value="1">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">Wert mit Null</option>
+			</field>
+
+			<field type="spacer" name="modspacer" label="&lt;h3 class='title pane-toggler-down'>Dateien und Ordner&lt;/h3>"
+				description="&lt;b>Attribute:&lt;/b> filter, exclude, stripExt, directory, hide_none, hide_default" />
+			<field type="file" name="jf_file" label="Datei-Upload" />
+			<field type="filelist" name="jf_filelist" label="Dateiliste"
+				hide_none="1"
+				filter="\.(php|zip|gz)" />
+			<field type="folderlist" name="jf_folderlist" label="Ordnerliste"
+				hide_default="1" />
+			<field type="imagelist" name="jf_imagelist" label="Bilderliste"
+				hide_default="1"
+				directory="images/banners" />
+			<field type="media" name="jf_media" label="Media-Verwaltung"
+				directory="images/banners" />
+
+		</fieldset>
+
+		<fieldset name="legal" label="Elemente (CMS)">
+
+			<field type="user"      name="jf_user" label="Benutzer" />
+			<field type="usergroup" name="jf_usergroup" label="Benutzergruppen" multiple="1" />
+
+			<field type="accesslevel"        name="jf_accesslevel" label="Zugriffsebenen" />
+			<field type="contentlanguage"    name="jf_contentlanguage" label="Sprachen für Inhalte">
+			<field type="databaseconnection" name="jf_databaseconnection" label="Datenbanktyp" />
+				<option value="*">JALL</option>
+			</field>
+			<field type="cachehandler" name="jf_cachehandler" label="Cache-Handler" />
+
+			<!-- Standard Plugins:
+				authentication, captcha, content, editors, editors-xtd,
+				extension, finder, quickicon, search, system, user
+			-->
+			<field type="plugins" name="jf_plgeditors" label="Editoren (Plugins)"
+				folder="editors" />
+			<field type="plugins" name="jf_plgcontent" label="Content (Plugins)"
+				folder="content" />
+			<field type="plugins" name="jf_plguser" label="User (Plugins)"
+				folder="user" />
+
+		</fieldset>
+
+		<fieldset name="togal" label="JavaScript (Behaviors)"
+			description="Hier rennt JavaScript mit und/oder man muss etwas mehr im XML auffahren.">
+
+			<field type="calendar" name="jf_calendar" label="Kalender"
+				format="%d.%m.%Y %H:%M"
+				size="24"
+				onchange="alert(this)" />
+
+			<field type="color" name="jf_color" label="Farbauswahl"
+				default="#BADA55"
+				onchange="alert(this)" />
+
+			<!-- Weiß jemand wie das combobox ding als field funktionieren soll? ;-) -->
+			<field type="combo" name="jf_combo" label="Kombinationsliste">
+				<option value="Combo1">Combo 1</option>
+				<option value="Combo2">Combo 2</option>
+				<option value="Combo3">Combo 3</option>
+			</field>
+		</fieldset>
+
+		<fieldset name="spezial" label="Sonderfälle">
+
+			<field type="modulelayout" name="jf_modulelayout" label="Modullayout"
+				module="mod_menu"
+				client_id="0" />
+		<!--
+		WYSIWYG Editor: als "Parameter-Feld" eher sinnfrei...
+			filter="JComponentHelper::filterText"  ~ der Standard passt
+			buttons="true"                         ~ läd die editor-xtd Plugins ??
+			hide="readmore,pagebreak"              ~ verbirgt dann (wieder) die genannten Buttons
+		-->
+			<!--
+			<field type="editor" name="jf_editor" label="Texteditor"
+				filter="JComponentHelper::filterText"
+				buttons="false"
+				width="350" />
+		   -->
+		</fieldset>
+
+	</fields>
+	</config>
+
+</extension>
